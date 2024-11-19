@@ -20,7 +20,7 @@ const ButtonSmall: React.FC<ButtonSmallProps> = ({
       whileTap={{ scale: 0.9 }}
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
       className={
-        " h-16 w-16 bg-giallo drop-shadow-md rounded-2xl mb-9 flex items-center justify-center text-3xl font-medium " +
+        " h-16 w-16 drop-shadow-md rounded-2xl mb-9 flex items-center justify-center text-3xl font-medium " +
         classname
       }
     >

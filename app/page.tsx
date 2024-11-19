@@ -4,11 +4,7 @@ import BackgroundDiv from "./hooks/useBackground";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Button,
-  ButtonInput,
-  ButtonSmall,
-} from "./components/home/indexButtons";
+import { Button, ButtonInput, ButtonSmall } from "./components/ui/indexButtons";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -83,14 +79,14 @@ export default function Page() {
                   {/* indietro, occhio, avanti */}
                   <ButtonSmall
                     onClick={handleBackClick}
-                    classname=" justify-self-center relative right-4"
+                    classname=" justify-self-center relative right-4 bg-giallo"
                   >
                     <ChevronLeftIcon />
                   </ButtonSmall>
-                  <ButtonSmall classname=" justify-self-center">
+                  <ButtonSmall classname=" justify-self-center bg-giallo">
                     <EyeSlashIcon />
                   </ButtonSmall>
-                  <ButtonSmall classname=" justify-self-center relative left-4">
+                  <ButtonSmall classname=" justify-self-center relative left-4 bg-giallo">
                     <ChevronRightIcon />
                   </ButtonSmall>
                 </div>

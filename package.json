@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "lodash": "^4.17.21",
     "motion": "^11.11.17",
     "next": "14.2.18",
     "react": "^18",
