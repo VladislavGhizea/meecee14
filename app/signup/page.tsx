@@ -1,10 +1,9 @@
 "use client";
-import BackgroundDiv from "../hooks/useBackground";
+import BackgroundDiv from "../components/ui/rootBackground";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { useState, useEffect, useCallback, ChangeEvent } from "react";
 import ButtonSmall from "../components/ui/ButtonSmall";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
 const inputs: string[] = [
@@ -93,14 +92,15 @@ export default function Page() {
             setInputSection(inputSection - 1);
           }}
         >
-          <ChevronLeftIcon strokeWidth={10} className="h-6 w-6" />
+          <Image alt="" src={"/arrowLeft.svg"} width={32} height={32} />
         </ButtonSmall>
         <ButtonSmall
+          classname="shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
           onClick={() => {
             setInputSection(inputSection + 1);
           }}
         >
-          <ChevronRightIcon />
+          <Image alt="" src={"/arrowRight.svg"} width={32} height={32} />
         </ButtonSmall>
       </motion.div>
     </BackgroundDiv>

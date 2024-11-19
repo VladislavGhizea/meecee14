@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #F6EEE1;
+  --background: #f6eee1;
   --foreground: #000200;
 }
 
@@ -20,6 +20,6 @@ body {
   font-family: var(--font-montserrat);
 }
 
-.font-bright-melody {
+` {
   font-family: var(--font-bright-melody);
 }

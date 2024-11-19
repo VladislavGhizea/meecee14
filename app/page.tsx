@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import BackgroundDiv from "./hooks/useBackground";
+import BackgroundDiv from "./components/ui/rootBackground";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
