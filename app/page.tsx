@@ -64,7 +64,7 @@ export default function Page() {
               className=" w-[336px] h-[128px]"
             />
             <h2 className=" text-center mb-20 text-white text-xl font-medium font-montserrat -mt-3">
-              MOTTO DI UNA RIGA
+              TROVA LA TUA ANIMA GEMELLA
             </h2>
           </div>
         </div>

@@ -45,8 +45,8 @@ export default function Page() {
           <Image alt="" src={"heart.svg"} width={64} height={64} />
         </ButtonAction>
       </div>
-      <div className="navbar h-16 w-[23rem] flex flex-row content-center justify-between bg-rosso70 mx-5 rounded-full">
-        <ButtonNavigation isBefore category="home">
+      <div className="navbar px-5 h-16 w-[23rem] flex flex-row content-center justify-between bg-rosso70 mx-5 rounded-full shadow-inner">
+        <ButtonNavigation className="" isBefore category="home">
           <Image
             alt=""
             src={"/paws.png"}
@@ -55,7 +55,8 @@ export default function Page() {
             className=" w-12 h-12"
           />
         </ButtonNavigation>
-        <ButtonNavigation className=" ml-auto " category="match">
+        <div className="h-full w-px bg-black mx-auto"></div>
+        <ButtonNavigation isBefore={false} className=" ml-auto" category="match">
           <Image
             alt=""
             src={"/carrier.png"}
