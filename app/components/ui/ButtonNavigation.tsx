@@ -3,18 +3,25 @@ import React from "react";
 interface ButtonNavigationProps {
   children: React.ReactNode;
   category: string;
-  className?: string;
+  classNameText?: string;
+  isBefore: boolean;
+  classNameContainer?: string;
 }
-
+const getMargin = (isBefore: boolean) => {
+  return isBefore ? "ml-5" : "mr-5";
+}
 const ButtonNavigation: React.FC<ButtonNavigationProps> = ({
   children,
   category,
-  className,
+  classNameText,
+  isBefore,
+  classNameContainer ,
 }) => {
   return (
-    <div>
-      {children}
-      <h2 className={` font-bright-melody ${className} `}>{category}</h2>
+    <div className={`flex flex-row items-center ${classNameContainer}`}>
+      {isBefore ? children : null}
+      <h2 className={` text-lg font-bright-melody ${classNameText} ${getMargin(isBefore)}`}>{category}</h2>
+      {isBefore ? null : children}
     </div>
   );
 };
