@@ -6,21 +6,32 @@ interface ButtonNavigationProps {
   classNameText?: string;
   isBefore: boolean;
   classNameContainer?: string;
+  onClick?: () => void;
 }
 const getMargin = (isBefore: boolean) => {
   return isBefore ? "ml-5" : "mr-5";
-}
+};
 const ButtonNavigation: React.FC<ButtonNavigationProps> = ({
   children,
   category,
   classNameText,
   isBefore,
-  classNameContainer ,
+  classNameContainer,
+  onClick,
 }) => {
   return (
-    <div className={`flex flex-row items-center ${classNameContainer}`}>
+    <div
+      onClick={onClick}
+      className={`flex flex-row items-center ${classNameContainer}`}
+    >
       {isBefore ? children : null}
-      <h2 className={` text-lg font-bright-melody ${classNameText} ${getMargin(isBefore)}`}>{category}</h2>
+      <h2
+        className={` text-lg font-bright-melody ${classNameText} ${getMargin(
+          isBefore
+        )}`}
+      >
+        {category}
+      </h2>
       {isBefore ? null : children}
     </div>
   );
