@@ -5,10 +5,19 @@ import ButtonAction from "../components/ui/ButtonAction";
 import ButtonNavigation from "../components/ui/ButtonNavigation";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
-
 export default function Page() {
   const router = useRouter();
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
+  const handleNavigation = (category: string) => {
+    if (category === "home") {
+      router.push("/home");
+    } else if (category === "match") {
+      router.push("/match");
+    }
+  };
+  const handleDescription = () => {
+    setIsDescriptionOpen(!isDescriptionOpen);
+  };
 
   return (
     <div>
