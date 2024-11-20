@@ -11,22 +11,23 @@ import {
   EyeSlashIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
-const handleForwardClick = () => {};
-const handleRegisterClick = () => {
-  router.push("/signup");
-};
-const handleLoginClick = () => {
-  setIsLoginOpen(!isLoginOpen);
-};
-const handleMenuClick = () => {};
-const handleEyeClick = () => {};
-const handleBackClick = () => {
-  setIsLoginOpen(!isLoginOpen);
-};
+
 export default function Page() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const handleMenuClick = () => {};
+  const handleEyeClick = () => {};
+  const handleBackClick = () => {
+    setIsLoginOpen(!isLoginOpen);
+  };
+  const handleForwardClick = () => {};
+  const handleRegisterClick = () => {
+    router.push("/signup");
+  };
+  const handleLoginClick = () => {
+    setIsLoginOpen(!isLoginOpen);
+  };
   return (
     <BackgroundDiv color="#334B35">
       {/* div sfondo */}
