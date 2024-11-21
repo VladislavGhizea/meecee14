@@ -110,9 +110,10 @@ export default function Page() {
               className="pl-4 w-[19rem] rounded-full bg-giallo h-8 mb-6 placeholder:text-nero"
               placeholder={input}
               value={inputValues[index + inputSection * 3]}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleInputChange(index + inputSection * 3, e.target.value)
-              }
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>{
+                handleInputChange(index + inputSection * 3, e.target.value);
+                inputs[index] = e.target.value;
+              }}
             />
           ))}
       </motion.div>
