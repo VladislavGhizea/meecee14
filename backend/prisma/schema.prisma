@@ -1,0 +1,72 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  username  String    @id
+  email     String
+  password  String
+  nome      String
+  cognome   String
+  CF        String
+  indirizzo String
+  CAP       Int
+  citta     String
+  matches   Match[]
+  likes     Like[]
+  dislikes  Dislike[]
+}
+
+model Description {
+  id       Int    @id @default(autoincrement())
+  weight   Float
+  attitude String
+  fur      String
+  breed    String
+  cats     Cat[]
+}
+
+model Cat {
+  id            Int         @id @default(autoincrement())
+  name          String
+  age           Int?
+  description   Description @relation(fields: [descriptionId], references: [id])
+  descriptionId Int
+  photoUrl      String?
+  matches       Match[]
+  likes         Like[]
+  dislikes      Dislike[]
+}
+
+model Match {
+  id       Int      @id @default(autoincrement())
+  cat      Cat      @relation(fields: [catId], references: [id])
+  catId    Int
+  user     User     @relation(fields: [username], references: [username])
+  username String
+  date     DateTime
+}
+
+model Like {
+  id       Int      @id @default(autoincrement())
+  cat      Cat      @relation(fields: [catId], references: [id])
+  catId    Int
+  user     User     @relation(fields: [username], references: [username])
+  username String
+  date     DateTime
+}
+
+model Dislike {
+  id       Int      @id @default(autoincrement())
+  cat      Cat      @relation(fields: [catId], references: [id])
+  catId    Int
+  user     User     @relation(fields: [username], references: [username])
+  username String
+  date     DateTime
+}

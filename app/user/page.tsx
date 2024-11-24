@@ -1,9 +1,9 @@
 "use client";
-import BackgroundDiv from "../components/ui/rootBackground";
+import BackgroundDiv from "../components/buttons/rootBackground";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { useState, useEffect, useCallback, ChangeEvent } from "react";
-import ButtonSmall from "../components/ui/ButtonSmall";
+import ButtonSmall from "../components/buttons/ButtonSmall";
 import { useRouter } from "next/navigation";
 
 const inputs: string[] = [
