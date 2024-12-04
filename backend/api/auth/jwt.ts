@@ -1,72 +1,38 @@
-import bcrypt from "bcrypt";
-import prisma from "../prisma";
-import { generateToken, generateRefreshToken, getUser } from "../context";
+import jwt from 'jsonwebtoken';
 
-interface RegisterArgs {
+const SECRET_KEY = process.env.JWT_SECRET as string;
+const REFRESH_SECRET_KEY = process.env.JWT_REFRESH_SECRET as string;
+
+if (!SECRET_KEY) {
+  throw new Error('La variabile d\'ambiente JWT_SECRET non è definita.');
+}
+
+if (!REFRESH_SECRET_KEY) {
+  throw new Error('La variabile d\'ambiente JWT_REFRESH_SECRET non è definita.');
+}
+
+interface UserPayload {
   username: string;
   email: string;
-  password: string;
-  nome: string;
-  cognome: string;
-  CF: string;
-  indirizzo: string;
-  CAP: number;
-  citta: string;
 }
 
-interface LoginArgs {
-  email: string;
-  password: string;
+const ACCESS_TOKEN_EXPIRY = '1h';
+const REFRESH_TOKEN_EXPIRY = '7d';
+
+export function generateToken(payload: UserPayload): string {
+  return jwt.sign(payload, SECRET_KEY, { expiresIn: ACCESS_TOKEN_EXPIRY });
 }
 
-interface RefreshTokenArgs {
-  token: string;
+export function generateRefreshToken(payload: UserPayload): string {
+  return jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: REFRESH_TOKEN_EXPIRY });
 }
 
-export const register = async (_parent: unknown, args: RegisterArgs) => {
-  const hashedPassword = await bcrypt.hash(args.password, 10);
-  return prisma.user.create({
-    data: {
-      username: args.username,
-      email: args.email,
-      password: hashedPassword,
-      nome: args.nome,
-      cognome: args.cognome,
-      CF: args.CF,
-      indirizzo: args.indirizzo,
-      CAP: args.CAP,
-      citta: args.citta,
-    },
-  });
-};
-
-export const login = async (_parent: unknown, args: LoginArgs) => {
-  const user = await prisma.user.findUnique({
-    where: { email: args.email },
-  });
-  if (!user) throw new Error("Utente non trovato");
-  const valid = await bcrypt.compare(args.password, user.password);
-  if (!valid) throw new Error("Password errata");
-  const token: string = generateToken({
-    id: user.username,
-    email: user.email,
-  });
-  const refreshToken: string = generateRefreshToken({
-    id: user.username,
-    email: user.email,
-  });
-  return { token, refreshToken };
-};
-
-export const refreshToken = async (_: unknown, { token }: RefreshTokenArgs) => {
-  const user = getUser(token);
-  if (!user) {
-    throw new Error("Invalid refresh token");
+export function getUser(token: string): UserPayload | null {
+  try {
+    const user = jwt.verify(token, SECRET_KEY) as unknown as UserPayload;
+    return user;
+  } catch (error) {
+    console.error(error); // Gestisci l'errore o registra dettagli per il debug
+    return null;
   }
-  const newToken = generateToken({ id: user.id, email: user.email });
-  const newRefreshToken = generateRefreshToken({
-    id: user.username,
-    email: user.email,
-  });
-  return { token: newToken, refreshToken: newRefreshToken };
-};
+}

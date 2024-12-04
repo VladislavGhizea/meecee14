@@ -4,7 +4,7 @@ import {
   generateToken,
   generateRefreshToken,
   getUser,
-} from "../../server/context";
+} from "../../api/auth";
 
 interface RegisterArgs {
   username: string;
@@ -52,11 +52,11 @@ export const login = async (_parent: unknown, args: LoginArgs) => {
   const valid = await bcrypt.compare(args.password, user.password);
   if (!valid) throw new Error("Password errata");
   const token: string = generateToken({
-    id: user.username,
+    username: user.username,
     email: user.email,
   });
   const refreshToken: string = generateRefreshToken({
-    id: user.username,
+    username: user.username,
     email: user.email,
   });
   return { token, refreshToken };
@@ -67,9 +67,9 @@ export const refreshToken = async (_: unknown, { token }: RefreshTokenArgs) => {
   if (!user) {
     throw new Error("Invalid refresh token");
   }
-  const newToken = generateToken({ id: user.id, email: user.email });
+  const newToken = generateToken({ username: user.username, email: user.email });
   const newRefreshToken = generateRefreshToken({
-    id: user.username,
+    username: user.username,
     email: user.email,
   });
   return { token: newToken, refreshToken: newRefreshToken };
