@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef,useState} from "react";
 import { motion } from "framer-motion";
 
 interface CardProps {
@@ -6,10 +6,28 @@ interface CardProps {
   handleDescription: () => void;
 }
 
+
 const Card: React.FC<CardProps> = ({
   isDescriptionOpen,
   handleDescription,
 }) => {
+    const [initialPosition, setInitialPosition] = useState<{ x: number; y: number } | null>(null);
+ const containerRef = useRef<HTMLDivElement>(null);
+const handleDragEnd = (event: React.DragEvent<HTMLDivElement>) => {
+  if (initialPosition) {
+    const deltaX = event.clientX - initialPosition.x;
+    const deltaY = event.clientY - initialPosition.y;
+
+    // Usa deltaX e deltaY come necessario
+    console.log(`Spostamento X: ${deltaX}, Spostamento Y: ${deltaY}`);
+console.log(deltaX>250 || deltaX < -250 ? "match" : "no match");
+    // Resetta la posizione iniziale
+    setInitialPosition(null);
+  }
+};
+const handleDragStart = (event: MouseEvent) => {
+  setInitialPosition({ x: event.clientX, y: event.clientY });
+};
   return (
     <div
       className={` bg-verde flex justify-center content-center ml-auto mr-auto w-[20.5rem] h-[30rem]
@@ -21,7 +39,7 @@ const Card: React.FC<CardProps> = ({
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
       ></motion.div>
-      <div className=" flex flex-col">
+      <div className=" flex flex-col" ref={containerRef}>
         <motion.img
           src="/images.jpg"
           className={`object-cover bg-red-800 w-[17.5rem] ${
@@ -33,6 +51,13 @@ const Card: React.FC<CardProps> = ({
             opacity: 1,
             height: isDescriptionOpen ? "10rem" : "23rem",
           }}
+          drag
+          whileDrag={{ scale: 1.2 }}
+          dragElastic = {0.2}
+          dragSnapToOrigin = {true}
+          dragConstraints={containerRef}
+          onDragStart={handleDragStart}
+          onDragEnd= {handleDragEnd}
         />
         <motion.div
           className={` flex bg-rosso relative]`}
