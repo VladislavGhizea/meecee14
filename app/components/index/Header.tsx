@@ -2,10 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Logo from "./Logo";
-
 const Header = () => {
   return (
-    <div className="grid grid-cols-1 grid-rows-2 justify-items-center">
       <div className="logo-container">
         <Logo />
         <div className="brand_name-container">
@@ -27,7 +25,6 @@ const Header = () => {
           </motion.div>
         </div>
       </div>
-    </div>
   );
 };
 

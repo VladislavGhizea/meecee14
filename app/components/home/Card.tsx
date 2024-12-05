@@ -13,15 +13,10 @@ const Card: React.FC<CardProps> = ({
 }) => {
     const [initialPosition, setInitialPosition] = useState<{ x: number; y: number } | null>(null);
  const containerRef = useRef<HTMLDivElement>(null);
-const handleDragEnd = (event: React.DragEvent<HTMLDivElement>) => {
+const handleDragEnd = (event: MouseEvent) => {
   if (initialPosition) {
     const deltaX = event.clientX - initialPosition.x;
-    const deltaY = event.clientY - initialPosition.y;
-
-    // Usa deltaX e deltaY come necessario
-    console.log(`Spostamento X: ${deltaX}, Spostamento Y: ${deltaY}`);
-console.log(deltaX>250 || deltaX < -250 ? "match" : "no match");
-    // Resetta la posizione iniziale
+if (deltaX>250) console.log("match"); else if (deltaX<-250) console.log("no match");
     setInitialPosition(null);
   }
 };

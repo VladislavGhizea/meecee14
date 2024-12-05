@@ -26,12 +26,15 @@ export default function Page() {
   return (
     <BackgroundDiv color="#334B35">
       <MenuIcon />
+      <div
+      className="grid grid-cols-1 grid-rows-2 justify-items-center"
+      >
       <Header />
       <ButtonsContainer
         isLoginOpen={isLoginOpen}
         handleLoginClick={handleLoginClick}
         handleRegisterClick={handleRegisterClick}
-      />
+      /></div>
       <Footer />
     </BackgroundDiv>
   );
