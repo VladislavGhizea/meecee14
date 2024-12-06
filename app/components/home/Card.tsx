@@ -1,28 +1,39 @@
-import React, {useRef,useState} from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useStoreHome } from "@/app/store";
 
 interface CardProps {
   isDescriptionOpen: boolean;
   handleDescription: () => void;
 }
 
-
 const Card: React.FC<CardProps> = ({
   isDescriptionOpen,
   handleDescription,
 }) => {
-    const [initialPosition, setInitialPosition] = useState<{ x: number; y: number } | null>(null);
- const containerRef = useRef<HTMLDivElement>(null);
-const handleDragEnd = (event: MouseEvent) => {
-  if (initialPosition) {
-    const deltaX = event.clientX - initialPosition.x;
-if (deltaX>250) console.log("match"); else if (deltaX<-250) console.log("no match");
-    setInitialPosition(null);
-  }
-};
-const handleDragStart = (event: MouseEvent) => {
-  setInitialPosition({ x: event.clientX, y: event.clientY });
-};
+  const [initialPosition, setInitialPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const handleDragEnd = (event: MouseEvent) => {
+    if (initialPosition) {
+      const deltaX = event.clientX - initialPosition.x;
+      if (deltaX > 250) console.log("match");
+      else if (deltaX < -250) console.log("no match");
+      setInitialPosition(null);
+    }
+    useStoreHome.getState().setDeltaX(0);
+  };
+  const handleDragStart = (event: MouseEvent) => {
+    setInitialPosition({ x: event.clientX, y: event.clientY });
+  };
+  const handleDrag = (event: MouseEvent) => {
+    if (initialPosition) {
+      const deltaX = event.clientX - initialPosition.x;
+      useStoreHome.getState().setDeltaX(deltaX);
+    }
+  };
   return (
     <div
       className={` bg-verde flex justify-center content-center ml-auto mr-auto w-[20.5rem] h-[30rem]
@@ -48,11 +59,12 @@ const handleDragStart = (event: MouseEvent) => {
           }}
           drag
           whileDrag={{ scale: 1.2 }}
-          dragElastic = {0.2}
-          dragSnapToOrigin = {true}
+          dragElastic={0.2}
+          dragSnapToOrigin={true}
           dragConstraints={containerRef}
           onDragStart={handleDragStart}
-          onDragEnd= {handleDragEnd}
+          onDragEnd={handleDragEnd}
+          onDrag={handleDrag}
         />
         <motion.div
           className={` flex bg-rosso relative]`}

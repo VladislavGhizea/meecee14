@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useStoreSignup } from "../store";
+import { useStoreSignup } from "@/app/store";
 import { Header, Card, ButtonsAction, Navbar } from "../components/home";
 
 export default function Page() {
