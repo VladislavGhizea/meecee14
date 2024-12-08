@@ -9,7 +9,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
-
 // Avvia il server
 const startServer = async () => {
   const { url } = await startStandaloneServer(server, {
