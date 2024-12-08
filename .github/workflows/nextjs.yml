@@ -41,10 +41,12 @@ jobs:
         working-directory: backend/prisma
         run: npx prisma migrate deploy
 
+      - name: Build Backend
+        working-directory: backend
+        run: npm run build
+
       - name: Build Frontend
-        run: |
-          npm run build
-          npm run start
+        run: npm run build
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
