@@ -32,13 +32,15 @@ jobs:
         run: npm install
 
       - name: Build Backend
-        working-directory: backend/server
+        working-directory: backend
         run: |
-          npm install
           npm run build
+          npm run start
 
       - name: Build Frontend
-        run: npm run build
+        run: |
+          npm run build
+          npm run start
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
