@@ -4,7 +4,7 @@ interface ButtonNavigationProps {
   children: React.ReactNode;
   category: string;
   classNameText?: string;
-  isBefore: boolean;
+  isTextAfter?: boolean;
   classNameContainer?: string;
   onClick?: () => void;
 }
@@ -15,24 +15,25 @@ const ButtonNavigation: React.FC<ButtonNavigationProps> = ({
   children,
   category,
   classNameText,
-  isBefore,
+  isTextAfter,
   classNameContainer,
   onClick,
 }) => {
+  isTextAfter = isTextAfter || false;
   return (
     <div
       onClick={onClick}
       className={`flex flex-row items-center ${classNameContainer}`}
     >
-      {isBefore ? children : null}
+      {isTextAfter ? children : null}
       <h2
         className={` text-lg font-bright-melody ${classNameText} ${getMargin(
-          isBefore
+          isTextAfter
         )}`}
       >
         {category}
       </h2>
-      {isBefore ? null : children}
+      {isTextAfter ? null : children}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -5,15 +6,24 @@ import ButtonNavigation from "../buttons/ButtonNavigation";
 
 interface NavbarProps {
   handleNavigation: (category: string) => void;
+  page: string;
 }
-
-const Navbar: React.FC<NavbarProps> = ({ handleNavigation }) => {
+const containerStyles = {
+  selectedLeft:
+    "bg-giallo60 h-12 w-fit rounded-full self-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] pl-2 pr-[inherit]",
+  selectedRight:
+    "bg-giallo60 h-12 w-fit rounded-full self-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] pr-2 pl-[inherit]",
+  defaultLeft: "h-12 w-fit rounded-full self-center pl-2 pr-[inherit]",
+  defaultRight: "h-12 w-fit rounded-full self-center pr-2 pl-[inherit]",
+};
+const Navbar: React.FC<NavbarProps> = ({ handleNavigation, page }) => {
   return (
     <div className="navbar px-5 h-16 w-[22rem] flex flex-row content-center justify-between bg-rosso70 rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)_inset] mx-auto">
       <ButtonNavigation
-        classNameContainer="bg-giallo60 h-12 w-1/2 rounded-full self-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] mr-3 pl-2"
-        classNameText=""
-        isBefore
+        classNameContainer={
+          containerStyles[page === "home" ? "selectedLeft" : "defaultLeft"]
+        }
+        isTextAfter
         category="home"
         onClick={() => handleNavigation("home")}
       >
@@ -30,11 +40,12 @@ const Navbar: React.FC<NavbarProps> = ({ handleNavigation }) => {
           />
         </motion.div>
       </ButtonNavigation>
-      <div className="h-full w-px bg-black mx-auto"></div>
+      <div className="h-3/4 w-px bg-black mx-auto rounded-full self-center"></div>
       <ButtonNavigation
         onClick={() => handleNavigation("match")}
-        isBefore={false}
-        classNameContainer=" ml-3 h-12 w-1/2 rounded-full self-center pl-2"
+        classNameContainer={
+          containerStyles[page === "match" ? "selectedRight" : "defaultRight"]
+        }
         category="match"
       >
         <motion.div

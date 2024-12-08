@@ -4,14 +4,9 @@ import Image from "next/image";
 
 const MenuIcon = () => {
   return (
-    <motion.div
-      initial={{ x: -100 }}
-      animate={{ x: 0 }}
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
-    >
+    <motion.div>
       <motion.div
-        whileHover={{ rotate: 90 }}
-        whileTap={{ scale: 0.8 }}
+        whileTap={{ x: 10 }}
         transition={{ type: "spring", stiffness: 400 }}
       >
         <Image

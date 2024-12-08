@@ -22,42 +22,40 @@ const ButtonsAction = () => {
   }, [deltaX]);
   return (
     <div className={`buttonsAction z-10`}>
-      <div className="grid grid-flow-col grid-cols-2 grid-rows-1 mt-6 mx-7 items-center">
+      <div className="grid grid-flow-col grid-cols-4 grid-rows-1 justify-items-center items-center mb-3">
         <ButtonAction className=" w-16 h-16 border-4">
           <Image alt="" src={"rematch.svg"} width={36} height={36} />
         </ButtonAction>
-        <ButtonAction className=" justify-self-end w-16 h-16 border-4">
-          <Image alt="" src={"star.svg"} width={40} height={40} />
-        </ButtonAction>
-      </div>
-      <div className="grid grid-flow-col grid-cols-2 grid-rows-1 justify-items-center items-center mb-3 mx-[5rem]">
         <ButtonAction className=" w-[5.5rem] h-[5.5rem] border-[6px]">
           <motion.div
             animate={{ scale: leftScale }}
-            className="flex justify-center content-center"
+            className="flex justify-center items-center"
           >
             <Image
               alt=""
               src={"cancel.svg"}
-              width={56}
-              height={56}
-              className=" z-10"
+              width={512}
+              height={512}
+              className={(rightScale > 1 ? "z-20" : "z-0") + " w-16 h-16"}
             />
           </motion.div>
         </ButtonAction>
         <ButtonAction className=" w-[5.5rem] h-[5.5rem] border-[6px]">
           <motion.div
             animate={{ scale: rightScale }}
-            className="flex justify-center content-center"
+            className="flex justify-center items-center"
           >
             <Image
               alt=""
               src={"heart.svg"}
-              width={64}
-              height={64}
-              className=" z-10"
+              width={512}
+              height={512}
+              className={(rightScale > 1 ? "z-20" : "z-0") + " w-[72] h-[72]"}
             />
           </motion.div>
+        </ButtonAction>
+        <ButtonAction className=" w-16 h-16 border-4">
+          <Image alt="" src={"star.svg"} width={40} height={40} />
         </ButtonAction>
       </div>
     </div>

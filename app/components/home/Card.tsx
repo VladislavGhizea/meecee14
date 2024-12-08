@@ -67,7 +67,7 @@ const Card: React.FC<CardProps> = ({
           onDrag={handleDrag}
         />
         <motion.div
-          className={` flex bg-rosso relative]`}
+          className={` flex bg-rosso z-10 `}
           onClick={handleDescription}
           initial={{ scale: 2, opacity: 0, width: "17.5rem", height: "3rem" }}
           animate={{
