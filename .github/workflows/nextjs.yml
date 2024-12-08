@@ -33,9 +33,9 @@ jobs:
 
       - name: Set up .env file
         run: |
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
-          echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> backend/.env
+          echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> backend/.env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env
 
       - name: Run Prisma Migrate
         working-directory: backend/prisma
