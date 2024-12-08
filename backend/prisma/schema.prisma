@@ -1,72 +1,81 @@
-// prisma/schema.prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
 model User {
-  username  String    @id
-  email     String
-  password  String
-  nome      String
-  cognome   String
-  CF        String
-  indirizzo String
-  CAP       Int
-  citta     String
-  matches   Match[]
-  likes     Like[]
-  dislikes  Dislike[]
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role         Role
+  username     String        @unique
+  email        String        @unique
+  password     String
+  firstName    String
+  lastName     String
+  fiscalCode   String        @unique
+  address      String
+  postalCode   String
+  city         String
+  createdAt    DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime      @default(now()) @updatedAt @db.Timestamptz(6)
+  interactions Interaction[]
+  matches      Match[]
 }
 
 model Description {
-  id       Int    @id @default(autoincrement())
-  weight   Float
-  attitude String
-  fur      String
-  breed    String
-  cats     Cat[]
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  details   Json
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+  cats      Cat[]
 }
 
 model Cat {
-  id            Int         @id @default(autoincrement())
+  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String
   age           Int?
-  description   Description @relation(fields: [descriptionId], references: [id])
-  descriptionId Int
+  descriptionId String        @db.Uuid
   photoUrl      String?
+  createdAt     DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime      @default(now()) @updatedAt @db.Timestamptz(6)
+  description   Description   @relation(fields: [descriptionId], references: [id], onDelete: Cascade)
+  interactions  Interaction[]
   matches       Match[]
-  likes         Like[]
-  dislikes      Dislike[]
 }
 
 model Match {
-  id       Int      @id @default(autoincrement())
-  cat      Cat      @relation(fields: [catId], references: [id])
-  catId    Int
-  user     User     @relation(fields: [username], references: [username])
-  username String
-  date     DateTime
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  catId     String   @db.Uuid
+  userId    String   @db.Uuid
+  date      DateTime @default(now()) @db.Timestamptz(6)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+  cat       Cat      @relation(fields: [catId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Like {
-  id       Int      @id @default(autoincrement())
-  cat      Cat      @relation(fields: [catId], references: [id])
-  catId    Int
-  user     User     @relation(fields: [username], references: [username])
-  username String
-  date     DateTime
+model Interaction {
+  id        String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  catId     String          @db.Uuid
+  userId    String          @db.Uuid
+  type      InteractionType
+  date      DateTime        @default(now()) @db.Timestamptz(6)
+  createdAt DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime        @default(now()) @updatedAt @db.Timestamptz(6)
+  cat       Cat             @relation(fields: [catId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Dislike {
-  id       Int      @id @default(autoincrement())
-  cat      Cat      @relation(fields: [catId], references: [id])
-  catId    Int
-  user     User     @relation(fields: [username], references: [username])
-  username String
-  date     DateTime
+enum Role {
+  user
+  owner
+}
+
+enum InteractionType {
+  like
+  dislike
 }

@@ -1,83 +1,91 @@
-import { gql } from "apollo-server";
+// Definisci i typeDefs
+const typeDefs = `#graphql
+    scalar JSON
+  enum Role {
+    user
+    owner
+  }
 
-const typeDefs = gql`
+  enum InteractionType {
+    like
+    dislike
+  }
+
   type User {
+    id: String!
+    role: Role!
     username: String!
     email: String!
-    nome: String
-    cognome: String
-    cf: String
-    indirizzo: String
-    cap: Int
-    citta: String
-    matches: [Match!]!
-    likes: [Like!]!
-    dislikes: [Dislike!]!
+    firstName: String!
+    lastName: String!
+    fiscalCode: String!
+    address: String!
+    postalCode: String!
+    city: String!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Description {
-    id: ID!
-    weight: Float
-    attitude: String
-    fur: String
-    breed: String
-    cats: [Cat!]!
+    id: String!
+    details: JSON!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Cat {
-    id: ID!
+    id: String!
     name: String!
     age: Int
-    description: Description!
+    descriptionId: String!
     photoUrl: String
-    matches: [Match!]!
-    likes: [Like!]!
-    dislikes: [Dislike!]!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Match {
-    id: ID!
-    cat: Cat!
-    user: User!
+    id: String!
+    catId: String!
+    userId: String!
     date: String!
+    createdAt: String!
+    updatedAt: String!
   }
 
-  type Like {
-    id: ID!
-    cat: Cat!
-    user: User!
+  type Interaction {
+    id: String!
+    catId: String!
+    userId: String!
+    type: InteractionType!
     date: String!
+    createdAt: String!
+    updatedAt: String!
   }
-
-  type Dislike {
-    id: ID!
-    cat: Cat!
+type AuthPayload {
+    token: String!
     user: User!
-    date: String!
   }
-
   type Query {
     users: [User!]!
-    user(username: String!): User
-    cats: [Cat!]!
-    cat(id: ID!): Cat
     descriptions: [Description!]!
-    description(id: ID!): Description
+    cats: [Cat!]!
     matches: [Match!]!
-    likes: [Like!]!
-    dislikes: [Dislike!]!
+    interactions: [Interaction!]!
   }
-
   type Mutation {
-    register(username: String!, email: String!, password: String!): User!
-    login(email: String!, password: String!): String! # Restituisce un token JWT
-    refreshToken(token: String!): String! # Restituisce un nuovo token JWT
-    likeCat(catId: ID!): Boolean! # Esempio di mutazione
-    dislikeCat(catId: ID!): Boolean! # Esempio di mutazione
-  }
-
-  type Subscription {
-    newMatch(userId: ID!): Match
+        signup(
+      role: String!
+      username: String!
+      password: String!
+      email: String!
+      firstName: String!
+      lastName: String!
+      fiscalCode: String!
+      address: String!
+      postalCode: String!
+      city: String!
+    ): User!
+    login(username: String!, password: String!): AuthPayload!
   }
 `;
 
