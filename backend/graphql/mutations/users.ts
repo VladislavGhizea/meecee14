@@ -1,10 +1,29 @@
-// ./graphql/mutations.ts
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../../prisma/prismaClient";
 import { GraphQLError } from "graphql";
-
+import { Response } from "express";
 const JWT_SECRET = process.env.JWT_SECRET as string;
+
+const hashPassword = async (password: string): Promise<string> => {
+  return await bcrypt.hash(password, 10);
+};
+
+const generateToken = (user: {
+  id: string;
+  username: string;
+  role: string;
+}): string => {
+  return jwt.sign(
+    {
+      userId: user.id,
+      username: user.username,
+      role: user.role,
+    },
+    JWT_SECRET,
+    { expiresIn: "24h" }
+  );
+};
 
 export const signup = async (
   _: unknown,
@@ -33,7 +52,7 @@ export const signup = async (
   }
 ) => {
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hashPassword(password);
     const user = await prisma.user.create({
       data: {
         role,
@@ -56,7 +75,8 @@ export const signup = async (
 
 export const login = async (
   _: unknown,
-  { username, password }: { username: string; password: string }
+  { username, password }: { username: string; password: string },
+  { res }: { res: Response }
 ) => {
   try {
     const user = await prisma.user.findUnique({
@@ -69,18 +89,16 @@ export const login = async (
     if (!valid) {
       throw new GraphQLError("Invalid password");
     }
-    const token = jwt.sign(
-      {
-        userId: user.id,
-        username: user.username,
-        role: user.role,
-      },
-      JWT_SECRET,
-      { expiresIn: "24h" }
-    );
+    const token = generateToken(user);
+
+    // Imposta il token come cookie HTTP-only
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000, // 1 giorno
+    });
 
     return {
-      token,
       user: {
         id: user.id,
         username: user.username,
@@ -89,5 +107,20 @@ export const login = async (
     };
   } catch (error) {
     throw new GraphQLError("Error logging in", { extensions: { error } });
+  }
+};
+export const logout = async (
+  _: unknown,
+  __: unknown,
+  { res }: { res: Response }
+) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+    return { message: "Logout successful" };
+  } catch (error) {
+    throw new GraphQLError("Error logging out", { extensions: { error } });
   }
 };

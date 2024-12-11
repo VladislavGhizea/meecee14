@@ -84,7 +84,7 @@ type AuthPayload {
       address: String!
       postalCode: String!
       city: String!
-    ): User!
+    ): Boolean!
     login(username: String!, password: String!): AuthPayload!
   }
 `;
